@@ -9,8 +9,11 @@ class Solution
     public static void Main(string[] args)
     {
         //Console.WriteLine(Add("12,2"));
-        Console.WriteLine(DelimiterParsing("//;#11;5"));
-            
+        //Console.WriteLine(DelimiterParsing("//;#11;5"));
+        //Console.WriteLine(AddPositiveNums(("//;#11;-5;-12")));
+        Console.WriteLine(AddPositiveNums(("//;#1;2;3")));
+
+
         Console.ReadLine();
 
     }
@@ -117,7 +120,59 @@ class Solution
         return sum;
 
 
-    } 
+    }
+
+    /*
+     *3. Calling Add with a negative number will throw Exception
+     *Exception should contain a message “Negatives not allowed” - and the negative number that was passed. If there are multiple negatives, show all of them in the exception message; comma delimited.
+     *This step is not part of automatic evaluation Unit Test and will be only evaluated manually.
+     *Input: “//;#16;51;-2”
+     *Output: Exception with message “Negatives not allowed -51,-2”
+     **/
+    
+    /*
+     * slipt the string into array, foreach the array to check negative nums, record negative ones in a new array 
+     * use ',' as delimiter to combine the negative nums into a string
+     * return it in an exception
+     * 
+     */ 
+
+
+    private static int AddPositiveNums(string s)
+    {
+       string delimiter = ",";
+       string numberString = s;
+
+        if (s.StartsWith("//"))
+        {
+            var match = Regex.Match(s, @"^//(.+?)#");
+            if (match.Success)
+            {
+                delimiter = Regex.Escape(match.Groups[1].Value);
+                numberString = s.Substring(match.Value.Length);
+
+            }
+
+        }
+         string[] numArray = numberString.Split(new string[] { delimiter }, StringSplitOptions.None);
+
+        var positiveNums = numArray.Select(int.Parse).ToList();
+
+        var negativeNums = numArray.Select(int.Parse).Where(num => num < 0).ToList();
+
+        if (negativeNums.Any())
+        {
+            throw new Exception($"Negative numbers are not allowed: {string.Join(",", negativeNums)}");
+
+            //throw new Exception($"Negative numbers are not allowed: {string.Join(",", negativeNums.Select(n => n.ToString()))}");
+        }
+
+        // Return the list of negative numbers
+        return positiveNums.Sum();
+
+       
+    }
 }
+
 
 
