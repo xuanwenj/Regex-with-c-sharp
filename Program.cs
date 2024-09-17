@@ -11,7 +11,8 @@ class Solution
         //Console.WriteLine(Add("12,2"));
         //Console.WriteLine(DelimiterParsing("//;#11;5"));
         //Console.WriteLine(AddPositiveNums(("//;#11;-5;-12")));
-        Console.WriteLine(AddPositiveNums(("//;#1;2;3")));
+        //Console.WriteLine(AddPositiveNums(("//;#1;2;3")));
+        Console.WriteLine(IgonorThousandNums("//;#23;1001;11"));
 
 
         Console.ReadLine();
@@ -154,7 +155,7 @@ class Solution
             }
 
         }
-         string[] numArray = numberString.Split(new string[] { delimiter }, StringSplitOptions.None);
+        string[] numArray = numberString.Split(new string[] { delimiter }, StringSplitOptions.None);
 
         var positiveNums = numArray.Select(int.Parse).ToList();
 
@@ -171,6 +172,34 @@ class Solution
         return positiveNums.Sum();
 
        
+      
+    }
+     /*"4. Numbers bigger than 1000 should be ignored, so adding 23 + 1001 = 23
+         * Input: "//;#23;1001;11" Output: 34"
+         */
+    /* slipt the numbers, pick out the ones larger than 1000*/
+    private static int IgonorThousandNums(string s)
+    {
+        string delimiter = ",";
+        string numberString = s;
+
+        if (s.StartsWith("//"))
+        {
+            var match = Regex.Match(s, @"^//(.+?)#");
+            if (match.Success)
+            {
+                delimiter = Regex.Escape(match.Groups[1].Value);
+                numberString = s.Substring(match.Value.Length);
+
+            }
+
+        }
+        string[] numArray = numberString.Split(new string[] { delimiter }, StringSplitOptions.None);
+
+        var lessThan1000Nums = numArray.Select(int.Parse).Where(num => num < 1000).ToList();
+        
+        return lessThan1000Nums.Sum();
+
     }
 }
 
