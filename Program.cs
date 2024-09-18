@@ -12,8 +12,9 @@ class Solution
         //Console.WriteLine(DelimiterParsing("//;#11;5"));
         //Console.WriteLine(AddPositiveNums(("//;#11;-5;-12")));
         //Console.WriteLine(AddPositiveNums(("//;#1;2;3")));
-        Console.WriteLine(IgonorThousandNums("//;#23;1001;11"));
-
+        //Console.WriteLine(IgonorThousandNums("//;#23;1001;11"));
+       
+        Console.WriteLine(anyDelimiter("//**%*#11**%*20**%*3"));
 
         Console.ReadLine();
 
@@ -78,7 +79,8 @@ class Solution
 
         if (s.StartsWith("//"))
             {
-            var match = Regex.Match(s, @"^//(.+?)#");
+            //var match = Regex.Match(s, @"^//(.+?)#");
+            var match = Regex.Match(s, @"^//(\*+)\#");
             /*
              *  ^:This symbol represents the beginning of the string. 
              *  This part is a capturing group, meaning it captures the text that matches the pattern inside the parentheses,
@@ -92,6 +94,7 @@ class Solution
             if (match.Success)
             {
                 delimiter = Regex.Escape(match.Groups[1].Value);
+                //Console.WriteLine(delimiter);
                 numberString = s.Substring(match.Value.Length);
                 /*
                  * match.Value returns the portion of the input string that the regular expression pattern matched.
@@ -201,6 +204,63 @@ class Solution
         return lessThan1000Nums.Sum();
 
     }
+    /*5. Delimiters can be of any length; take a look at the example below
+     * "//[delimiter]#" for example:
+     * "//***#11***20***3" should return 34
+     * Input: "//#11203" Output: 34
+     */
+
+    private static int anyDelimiter(string s)
+    {
+
+        string delimiter = ",";
+        string numberString = s;
+
+        if (s.StartsWith("//"))
+        {
+            var match = Regex.Match(s, @"^//(.+?)#");
+           // var match = Regex.Match(s, @"^//(\*+)\#");
+
+                //Use Regex.Escape when you want to treat a string
+                //that may contain special characters as literal characters in a regular expression.
+
+            if (match.Success)
+            {
+                
+                //delimiter = Regex.Escape(match.Groups[1].Value);
+
+                delimiter = match.Groups[1].Value;
+               // Console.WriteLine(delimiter);
+                Console.WriteLine(delimiter);
+                numberString = s.Substring(match.Value.Length);
+                Console.WriteLine("Matched Length: " + match.Value.Length);//output 4
+            }
+        }
+
+        string[] numArray = numberString.Split(new string[] { delimiter }, StringSplitOptions.None);
+
+        int sum = numArray.Select(int.Parse).Sum();
+
+        return sum;
+    }
+
+
+    /*6. Allow multiple delimiters
+     * "//[delim1][delim2]#" for example:
+     * "//[][%]#112%17" should return 30.
+     * Multiple delimiters should be enclosed by [].
+     * 
+     * Input: "//[][%]#112%17" Output: 30
+     */
+
+
+
+
+    /*7. Make sure you can also handle multiple delimiters with length longer than one char
+     * Input: "//[abc][%%]#11abc2%%17"
+     * Output: 30
+ 
+     */
 }
 
 
