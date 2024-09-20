@@ -9,12 +9,14 @@ class Solution
     public static void Main(string[] args)
     {
         //Console.WriteLine(Add("12,2"));
-        //Console.WriteLine(DelimiterParsing("//;#11;5"));
+        Console.WriteLine(DelimiterParsing("//;#11;5"));
         //Console.WriteLine(AddPositiveNums(("//;#11;-5;-12")));
         //Console.WriteLine(AddPositiveNums(("//;#1;2;3")));
         //Console.WriteLine(IgonorThousandNums("//;#23;1001;11"));
        
-        Console.WriteLine(anyDelimiter("//**%*#11**%*20**%*3"));
+      //  Console.WriteLine(anyDelimiter("//**%*#11**%*20**%*3"));
+
+      
 
         Console.ReadLine();
 
@@ -65,6 +67,11 @@ class Solution
      * Convert Strings to Integers
      * Sum the Numbers
      * Handle Additional Constraints
+     * 
+     * 
+     * hello_world, test!
+     * 
+     * 
      * Return the Result
      * */
 
@@ -79,8 +86,8 @@ class Solution
 
         if (s.StartsWith("//"))
             {
-            //var match = Regex.Match(s, @"^//(.+?)#");
-            var match = Regex.Match(s, @"^//(\*+)\#");
+            var match = Regex.Match(s, @"^//(.+?)#");
+            //var match = Regex.Match(s, @"^//(\*+)\#");
             /*
              *  ^:This symbol represents the beginning of the string. 
              *  This part is a capturing group, meaning it captures the text that matches the pattern inside the parentheses,
@@ -89,6 +96,15 @@ class Solution
              *  .: A dot (.) means "match any single character" (except newlines).
              *  +: This means "one or more of the previous character or pattern." So .+ means "match one or more of any character."
              *  ?: This makes the + non-greedy, meaning it will match the smallest possible number of characters (i.e., it stops as soon as it finds the #).
+             *  The .+? part says "match any character one or more times, but as few as possible."
+             *   
+             *  the reason we use the non-greedy modifier (?) in the pattern @"^//(.+?)#" is to ensure that the regex engine stops at the first occurrence of #, 
+             *  instead of potentially matching everything up to the last occurrence of # in the string.
+             *  
+             *  The pattern @"^//(.+?)#" says:
+             *  "Match a string that begins with //.
+             *  Then, capture one or more characters (but as few as possible).
+             *  Finally, stop and expect a # right after the captured part."
              *  
              */
             if (match.Success)
@@ -219,8 +235,6 @@ class Solution
         if (s.StartsWith("//"))
         {
             var match = Regex.Match(s, @"^//(.+?)#");
-           // var match = Regex.Match(s, @"^//(\*+)\#");
-
                 //Use Regex.Escape when you want to treat a string
                 //that may contain special characters as literal characters in a regular expression.
 
@@ -233,7 +247,7 @@ class Solution
                // Console.WriteLine(delimiter);
                 Console.WriteLine(delimiter);
                 numberString = s.Substring(match.Value.Length);
-                Console.WriteLine("Matched Length: " + match.Value.Length);//output 4
+                Console.WriteLine("Matched Length: " + match.Value.Length);
             }
         }
 
@@ -251,6 +265,11 @@ class Solution
      * Multiple delimiters should be enclosed by [].
      * 
      * Input: "//[][%]#112%17" Output: 30
+     */
+
+    /* define [] as mark for delimeter
+     * 
+     
      */
 
 
